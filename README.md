@@ -142,7 +142,7 @@ local WeakTables = require(path.to.WeakTables)
 
 **MIT License © 2025 @manee_too**
 You may use, modify, and distribute this plugin freely.
-Please include attribution to "Coffilhg" in your game credits.
+Please include attribution to "@manee_too" in your game credits.
 
 Full License: [LICENSE](https://github.com/maneetoo/Weak-Tables/edit/main/LICENSE)
 
