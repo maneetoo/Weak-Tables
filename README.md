@@ -1,7 +1,5 @@
 # 🔧 WeakTables - Weak Reference Tables for Roblox Lua
-#### (WeakTables-Roblox)
-
-**Create weak tables to prevent memory leaks in Roblox games. Automatic garbage collection included.**
+**Create weak tables to prevent memory leaks in Roblox games. Automatic garbage collection included. More information [here](https://www.lua.org/pil/17.html)**
 
 ---
 
@@ -10,6 +8,54 @@
 Utility module for working with weak-reference tables in Roblox Luau. Allows creation of tables where keys and/or values can be automatically removed by garbage collector.
 
 > Example: Object cache → when object gets destroyed, table entry removes itself → no memory leaks!
+
+---
+
+## 🚀 Features
+
+### 📦 **Three Weak Table Types**
+- **Weak Keys** (`newWeakKeys`) - Keys can be garbage collected
+- **Weak Values** (`newWeakValues`) - Values can be garbage collected  
+- **Weak Both** (`newWeakBoth`) - Both keys and values can be garbage collected
+
+### 🔧 **Utility Functions**
+- `makeWeak()` - Convert existing tables to weak tables
+- `isWeakTable()` - Check if a table has weak references
+- `getWeakMode()` - Get the weak mode of a table
+- `toRegularTable()` - Convert weak table to regular table
+- `clone()` - Create a deep copy preserving weak mode
+
+### 🛡️ **Safe Operations**
+- `safeForEach()` - Iterate safely without GC interference
+- `map()` / `filter()` - Functional programming utilities
+- `count()` - Get approximate entry count
+- `debugPrint()` - Debugging helper
+
+### 🏗️ **Roblox & Luau Ready**
+- Full Luau type definitions
+- Studio autocomplete support
+- Error handling and validation
+- MIT licensed - free to use and modify
+
+---
+
+## ⚠️ Important Notes
+
+### 🔄 **Garbage Collection Behavior**
+- Weak table entries are **automatically removed** by Lua's garbage collector
+- Timing is non-deterministic - entries may disappear at any time
+- Never assume entries will persist across frames
+
+### 🎮 **Roblox-Specific Considerations**
+- **Instance references**: When Instances are destroyed, they become `nil` in weak tables
+- **Memory management**: Essential for long-running games to prevent leaks
+- **Event connections**: Consider using weak tables for event handler registries
+
+### ⚡ **Performance Tips**
+- Use `safeForEach()` for reliable iteration
+- Avoid storing essential game state in weak tables
+- Combine with `pcall()` for defensive programming
+- Monitor memory usage with Roblox Studio's memory profiler
 
 ---
 
@@ -32,51 +78,51 @@ local tempStorage = WeakTables.newWeakBoth()
 
 ---
 
-## 📚 Main Functions
+## 📚 API Examples
 
-### Creating Weak Tables
+### Basic Usage
 ```lua
--- Weak keys
+-- Weak keys: keys can be GC'd
 local weakKeys = WeakTables.newWeakKeys()
+weakKeys[player] = playerData  -- Removed when player leaves
 
--- Weak values
+-- Weak values: values can be GC'd  
 local weakValues = WeakTables.newWeakValues()
+weakValues["cacheKey"] = temporaryObject  -- Removed when object destroyed
 
--- Weak keys and values
+-- Weak both: both can be GC'd
 local weakBoth = WeakTables.newWeakBoth()
-
--- Custom mode
-local custom = WeakTables.newWeak("kv")  -- "k", "v", or "kv"
+weakBoth[temporaryKey] = temporaryValue
 ```
 
-### Utilities
+### Safe Iteration
 ```lua
--- Convert regular table to weak
-WeakTables.makeWeak(myTable, "k")
+-- Regular iteration may miss entries due to GC
+for key, value in pairs(weakTable) do
+    -- Entries might disappear during iteration!
+end
+
+-- Safe iteration collects entries first
+WeakTables.safeForEach(weakTable, function(key, value)
+    -- Safe from GC interference
+    print(key, value)
+end)
+```
+
+### Utility Functions
+```lua
+-- Convert existing table to weak table
+local regularTable = {a = 1, b = 2}
+WeakTables.makeWeak(regularTable, "k")  -- Now has weak keys
 
 -- Check table type
 if WeakTables.isWeakTable(myTable) then
     print("This is a weak table!")
 end
 
--- Safe iteration (no GC interference)
-WeakTables.safeForEach(weakTable, function(key, value)
-    print(key, value)
-end)
-
--- Debug
-WeakTables.debugPrint(cache, "Player Cache")
+-- Debug printing
+WeakTables.debugPrint(myWeakTable, "Player Cache")
 ```
-
----
-
-## ⚠️ Important Notes
-
-- **Entries removed automatically** by garbage collector
-- **Removal timing is unpredictable** - entries can disappear anytime
-- **Don't store critical data** in weak tables
-- **Use `safeForEach()`** for reliable iteration
-- **Perfect for caching** and temporary storage
 
 ---
 
