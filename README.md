@@ -5,9 +5,9 @@
 
 ## 💡 What It Does
 
-Utility module for working with weak-reference tables in Roblox Luau. Allows creation of tables where keys and/or values can be automatically removed by garbage collector.
+WeakTables provides a clean, type-safe API for creating tables with weak references in Roblox Luau. Unlike regular tables, weak tables automatically remove entries when their keys or values are no longer referenced elsewhere, preventing memory leaks in long-running games.
 
-> Example: Object cache → when object gets destroyed, table entry removes itself → no memory leaks!
+> Example: Create a cache for expensive computations → store results with weak keys → when objects are destroyed, entries are automatically removed → no manual cleanup needed!
 
 ---
 
@@ -128,12 +128,13 @@ WeakTables.debugPrint(myWeakTable, "Player Cache")
 
 ## 📦 Installation
 
-1. Download `WeakTables.luau`
-2. Place in `ReplicatedStorage`
-3. Use:
+1. Download [WeakTables.luau](https://github.com/maneetoo/Weak-Tables/raw/main/WeakTables.luau)
+2. Place in your Roblox project's `ReplicatedStorage` or `ServerScriptService`
+3. Require in your scripts:
 ```lua
-local WeakTables = require(game.ReplicatedStorage.WeakTables)
+local WeakTables = require(path.to.WeakTables)
 ```
+4. Done! You can use WeakTables @module
 
 ---
 
