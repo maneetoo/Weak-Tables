@@ -128,7 +128,7 @@ WeakTables.debugPrint(myWeakTable, "Player Cache")
 
 ## 📦 Installation
 
-1. Download [WeakTables.luau](https://github.com/maneetoo/Weak-Tables/raw/main/WeakTables.luau)
+1. Download [WeakTables.luau](https://github.com/maneetoo/Weak-Tables/blob/main/WeakTables.lua)
 2. Place in your Roblox project's `ReplicatedStorage` or `ServerScriptService`
 3. Require in your scripts:
 ```lua
